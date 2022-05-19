@@ -1,0 +1,12 @@
+task	list	occur	users	task.tok	task.lem	task.upos	task.xpos	list.tok	list.lem	list.upos	list.xpos	task.predicate	task.target	task.prep	list.predicate	list.target	list.prep	task.list.predicate	task.list.prefix	task.list.suffix	task.full.tok	task.full.rel	task.full.freq
+buy milk	today	100	10	buy milk	buy milk	VERB NOUN	VB NN	today	today	NOUN	NN	buy	milk			today					buy milk	original	1
+pick up milk	groceries	100	10	pick up milk	pick up milk	VERB ADP NOUN	VB RP NN	groceries	grocery	NOUN	NNS	pick up	milk			groceries					pick up milk	original	1
+milk	wholefoods	100	10	milk	milk	NOUN	NN	wholefoods	wholefood	NOUN	NNS	pick up	milk			wholefoods					pick up milk	dobj	10
+call naoki	todo	10	10	call naoki	call naoki	VERB NOUN	VB NN	todo	todo	PROPN	NNP	call	naoki			todo					call naoki	original	1
+naoki	contact	20	20	naoki	naoki	PROPN	NNP	contact	contact	NOUN	NN	call	naoki			contact					call naoki	dobj	10
+code	research	100	10	code	code	PROPN	NNP	research	research	NOUN	NN	upload	code			research					upload code	dobj	10
+submit	research	100	10	submit	submit	VERB	VB	research	research	NOUN	NN	submit				research					submit	original	1
+submit a draft	school	100	10	submit a draft	submit a draft	VERB DET NOUN	VB DT NN	school	school	NOUN	NN	submit	a draft			school					submit a draft	original	1
+revise a draft	this week	100	10	revise a draft	revise a draft	VERB DET NOUN	VB DT NN	this week	this week	DET NOUN	DT NN	revise	a draft			this week					revise a draft	original	1
+upload code	research	100	10	upload code	upload code	VERB NOUN	VB NN	research	research	NOUN	NN	upload	code			research					upload code	original	1
+clean up code	work	100	10	clean up code	clean up code	VERB ADP NOUN	VB RP NN	work	work	VERB	VB	clean up	code		work						clean up code	original	1

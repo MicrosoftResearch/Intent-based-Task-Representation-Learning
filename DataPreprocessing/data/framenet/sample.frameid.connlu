@@ -1,0 +1,23 @@
+1	buy	_	buy	_	VB	0	_	_	_	_	_	buy.v	Commerce_buy	O
+2	milk	_	milk	_	NN	0	_	_	_	_	_	_	_	O
+
+1	buy	_	buy	_	VB	0	_	_	_	_	_	_	_	O
+2	milk	_	milk	_	NN	0	_	_	_	_	_	milk.n	Food	S-Food
+
+1	call	_	call	_	NN	1	_	_	_	_	_	call.n	Contacting	O
+2	naoki	_	UNK	_	NN	1	_	_	_	_	_	_	_	O
+
+1	pick	_	pick	_	VB	3	_	_	_	_	_	pick.v	Food_gathering	O
+2	up	_	up	_	RP	3	_	_	_	_	_	_	_	O
+3	milk	_	milk	_	NN	3	_	_	_	_	_	_	_	O
+
+1	pick	_	pick	_	VB	3	_	_	_	_	_	_	_	O
+2	up	_	up	_	RP	3	_	_	_	_	_	_	_	O
+3	milk	_	milk	_	NN	3	_	_	_	_	_	milk.n	Food	S-Food
+
+1	submit	_	submit	_	NN	5	_	_	_	_	_	submit.v	Submitting_documents	O
+
+1	submit	_	submit	_	NN	6	_	_	_	_	_	submit.v	Submitting_documents	O
+2	a	_	a	_	DT	6	_	_	_	_	_	_	_	O
+3	draft	_	UNK	_	NN	6	_	_	_	_	_	_	_	O
+

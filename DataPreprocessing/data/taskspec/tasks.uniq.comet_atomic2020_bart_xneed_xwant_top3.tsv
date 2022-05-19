@@ -1,0 +1,16 @@
+buy milk	xWant	buy milk	to drink	drink
+buy milk	xNeed	go to store	go to grocery store	go to milk store
+call naoki	xWant	to make a phone call	to talk to someone	to talk to the person
+call naoki	xNeed	to have a phone	to pick up phone	to have phone
+clean up code	xWant	clean up mess	clean up code	clean up
+clean up code	xNeed	to know how to write code	to know how to do it	to know how to do so
+pick up milk	xWant	to put it in the fridge	to drink the milk	to drink
+pick up milk	xNeed	go to the store	go to store	go to milk store
+revise a draft	xWant	to get a good grade	write a new draft	to make a good draft
+revise a draft	xNeed	to have a draft	write a draft	to have a plan
+submit	xWant	to get a job	to get the job	to submit
+submit	xNeed	find out what to submit	find out how to submit	find out
+submit a draft	xWant	to get a job	to get a contract	to get feedback
+submit a draft	xNeed	to write a draft	to have a draft	to have a pen
+upload code	xWant	to upload it to the internet	to upload it to the web	to upload the code
+upload code	xNeed	to have a computer	write code	write

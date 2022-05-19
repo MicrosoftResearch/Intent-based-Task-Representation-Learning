@@ -1,0 +1,27 @@
+{"text": "buy milk", "predicate": "buy", "arguments": {"dobj": ["milk"]}}
+{"text": "call naoki", "predicate": "call", "arguments": {"dobj": ["naoki"]}}
+{"text": "clean up code", "predicate": "clean up", "arguments": {"dobj": ["code"]}}
+{"text": "code", "predicate": "", "arguments": {"root": ["code"]}}
+{"text": "contact", "predicate": "", "arguments": {"root": ["contact"]}}
+{"text": "draft", "predicate": "", "arguments": {"root": ["draft"]}}
+{"text": "groceries", "predicate": "", "arguments": {"root": ["groceries"]}}
+{"text": "milk", "predicate": "", "arguments": {"root": ["milk"]}}
+{"text": "naoki", "predicate": "", "arguments": {"root": ["naoki"]}}
+{"text": "pick up milk", "predicate": "pick up", "arguments": {"dobj": ["milk"]}}
+{"text": "research", "predicate": "", "arguments": {"root": ["research"]}}
+{"text": "revise a draft", "predicate": "revise", "arguments": {"dobj": ["a draft"]}}
+{"text": "sample list 1", "predicate": "", "arguments": {"root": ["sample list"]}}
+{"text": "sample list 2", "predicate": "", "arguments": {"root": ["sample list"]}}
+{"text": "sample list 3", "predicate": "", "arguments": {"root": ["sample list"]}}
+{"text": "sample task 1", "predicate": "", "arguments": {"root": ["sample task"]}}
+{"text": "sample task 2", "predicate": "", "arguments": {"root": ["sample task"]}}
+{"text": "sample task 3", "predicate": "", "arguments": {"root": ["sample task"]}}
+{"text": "school", "predicate": "", "arguments": {"root": ["school"]}}
+{"text": "submit", "predicate": "submit", "arguments": {}}
+{"text": "submit a draft", "predicate": "submit", "arguments": {"dobj": ["a draft"]}}
+{"text": "this week", "predicate": "", "arguments": {"root": ["this week"]}}
+{"text": "today", "predicate": "", "arguments": {"root": ["today"]}}
+{"text": "todo", "predicate": "", "arguments": {"root": ["todo"]}}
+{"text": "upload code", "predicate": "upload", "arguments": {"dobj": ["code"]}}
+{"text": "wholefoods", "predicate": "", "arguments": {"root": ["wholefoods"]}}
+{"text": "work", "predicate": "work", "arguments": {}}

@@ -1,0 +1,105 @@
+# text = buy milk
+1	buy		VERB	VB	_	0	ROOT	_	_
+2	milk		NOUN	NN	_	1	dobj	_	_
+
+# text = call naoki
+1	call		VERB	VB	_	0	ROOT	_	_
+2	naoki		NOUN	NN	_	1	dobj	_	_
+
+# text = clean up code
+1	clean		VERB	VB	_	0	ROOT	_	_
+2	up		ADP	RP	_	1	prt	_	_
+3	code		NOUN	NN	_	1	dobj	_	_
+
+# text = code
+1	code		PROPN	NNP	_	0	ROOT	_	_
+
+# text = contact
+1	contact		NOUN	NN	_	0	ROOT	_	_
+
+# text = draft
+1	draft		NOUN	NN	_	0	ROOT	_	_
+
+# text = groceries
+1	groceries		NOUN	NNS	_	0	ROOT	_	_
+
+# text = milk
+1	milk		NOUN	NN	_	0	ROOT	_	_
+
+# text = naoki
+1	naoki		PROPN	NNP	_	0	ROOT	_	_
+
+# text = pick up milk
+1	pick		VERB	VB	_	0	ROOT	_	_
+2	up		ADP	RP	_	1	prt	_	_
+3	milk		NOUN	NN	_	1	dobj	_	_
+
+# text = research
+1	research		NOUN	NN	_	0	ROOT	_	_
+
+# text = revise a draft
+1	revise		VERB	VB	_	0	ROOT	_	_
+2	a		DET	DT	_	3	det	_	_
+3	draft		NOUN	NN	_	1	dobj	_	_
+
+# text = sample list 1
+1	sample		NOUN	NN	_	2	compound	_	_
+2	list		NOUN	NN	_	0	ROOT	_	_
+3	1		NUM	CD	_	2	nummod	_	_
+
+# text = sample list 2
+1	sample		NOUN	NN	_	2	compound	_	_
+2	list		NOUN	NN	_	0	ROOT	_	_
+3	2		NUM	CD	_	2	nummod	_	_
+
+# text = sample list 3
+1	sample		NOUN	NN	_	2	compound	_	_
+2	list		NOUN	NN	_	0	ROOT	_	_
+3	3		NUM	CD	_	2	nummod	_	_
+
+# text = sample task 1
+1	sample		NOUN	NN	_	2	compound	_	_
+2	task		NOUN	NN	_	0	ROOT	_	_
+3	1		NUM	CD	_	2	nummod	_	_
+
+# text = sample task 2
+1	sample		NOUN	NN	_	2	compound	_	_
+2	task		NOUN	NN	_	0	ROOT	_	_
+3	2		NUM	CD	_	2	nummod	_	_
+
+# text = sample task 3
+1	sample		NOUN	NN	_	2	compound	_	_
+2	task		NOUN	NN	_	0	ROOT	_	_
+3	3		NUM	CD	_	2	nummod	_	_
+
+# text = school
+1	school		NOUN	NN	_	0	ROOT	_	_
+
+# text = submit
+1	submit		VERB	VB	_	0	ROOT	_	_
+
+# text = submit a draft
+1	submit		VERB	VB	_	0	ROOT	_	_
+2	a		DET	DT	_	3	det	_	_
+3	draft		NOUN	NN	_	1	dobj	_	_
+
+# text = this week
+1	this		DET	DT	_	2	det	_	_
+2	week		NOUN	NN	_	0	ROOT	_	_
+
+# text = today
+1	today		NOUN	NN	_	0	ROOT	_	_
+
+# text = todo
+1	todo		PROPN	NNP	_	0	ROOT	_	_
+
+# text = upload code
+1	upload		VERB	VB	_	0	ROOT	_	_
+2	code		NOUN	NN	_	1	dobj	_	_
+
+# text = wholefoods
+1	wholefoods		NOUN	NNS	_	0	ROOT	_	_
+
+# text = work
+1	work		VERB	VB	_	0	ROOT	_	_
+

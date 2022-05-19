@@ -1,0 +1,5 @@
+task	list	occur	users	task.tok	task.lem	task.upos	task.xpos	list.tok	list.lem	list.upos	list.xpos	task.predicate	task.target	task.prep	list.predicate	list.target	list.prep	task.list.predicate	task.list.prefix	task.list.suffix	task.full.tok	task.full.rel	task.full.freq
+sample task 1	sample list 1	123	10	sample task 1	sample task 1	NOUN NOUN NUM	NN NN CD	sample list 1	sample list 1	NOUN NOUN NUM	NN NN CD		sample task			sample list							
+sample task 2	sample list 2	456	11	sample task 2	sample task 2	NOUN NOUN NUM	NN NN CD	sample list 2	sample list 2	NOUN NOUN NUM	NN NN CD		sample task			sample list							
+sample task 3	sample list 3	789	12	sample task 3	sample task 3	NOUN NOUN NUM	NN NN CD	sample list 3	sample list 3	NOUN NOUN NUM	NN NN CD		sample task			sample list							
+draft	research	100	10	draft	draft	NOUN	NN	research	research	NOUN	NN		draft			research							

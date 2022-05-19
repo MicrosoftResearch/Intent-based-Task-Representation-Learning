@@ -1,0 +1,16 @@
+task	list	occur	users
+sample task 1	sample list 1	123	10
+sample task 2	sample list 2	456	11
+sample task 3	sample list 3	789	12
+buy milk	today	100	10
+pick up milk	groceries	100	10
+milk	wholefoods	100	10
+call naoki	todo	10	10
+naoki	contact	20	20
+draft	research	100	10
+code	research	100	10
+submit	research	100	10
+submit a draft	school	100	10
+revise a draft	this week	100	10
+upload code	research	100	10
+clean up code	work	100	10

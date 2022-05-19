@@ -1,0 +1,16 @@
+task	list	occur	users	task.tok	task.lem	task.upos	task.xpos	list.tok	list.lem	list.upos	list.xpos	key	rel
+buy milk	today	100	10	buy milk	buy milk	VERB NOUN	VB NN	today	today	NOUN	NN	milk	dobj
+buy milk	today	100	10	buy milk	buy milk	VERB NOUN	VB NN	today	today	NOUN	NN	buy	root
+pick up milk	groceries	100	10	pick up milk	pick up milk	VERB ADP NOUN	VB RP NN	groceries	grocery	NOUN	NNS	milk	dobj
+pick up milk	groceries	100	10	pick up milk	pick up milk	VERB ADP NOUN	VB RP NN	groceries	grocery	NOUN	NNS	pick up	root
+call naoki	todo	10	10	call naoki	call naoki	VERB NOUN	VB NN	todo	todo	PROPN	NNP	naoki	dobj
+call naoki	todo	10	10	call naoki	call naoki	VERB NOUN	VB NN	todo	todo	PROPN	NNP	call	root
+submit	research	100	10	submit	submit	VERB	VB	research	research	NOUN	NN	submit	root
+submit a draft	school	100	10	submit a draft	submit a draft	VERB DET NOUN	VB DT NN	school	school	NOUN	NN	a draft	dobj
+submit a draft	school	100	10	submit a draft	submit a draft	VERB DET NOUN	VB DT NN	school	school	NOUN	NN	submit	root
+revise a draft	this week	100	10	revise a draft	revise a draft	VERB DET NOUN	VB DT NN	this week	this week	DET NOUN	DT NN	a draft	dobj
+revise a draft	this week	100	10	revise a draft	revise a draft	VERB DET NOUN	VB DT NN	this week	this week	DET NOUN	DT NN	revise	root
+upload code	research	100	10	upload code	upload code	VERB NOUN	VB NN	research	research	NOUN	NN	code	dobj
+upload code	research	100	10	upload code	upload code	VERB NOUN	VB NN	research	research	NOUN	NN	upload	root
+clean up code	work	100	10	clean up code	clean up code	VERB ADP NOUN	VB RP NN	work	work	VERB	VB	code	dobj
+clean up code	work	100	10	clean up code	clean up code	VERB ADP NOUN	VB RP NN	work	work	VERB	VB	clean up	root

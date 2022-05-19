@@ -1,0 +1,16 @@
+task	list	occur	users	task.tok	task.lem	task.upos	task.xpos	list.tok	list.lem	list.upos	list.xpos
+sample task 1	sample list 1	123	10	sample task 1	sample task 1	NOUN NOUN NUM	NN NN CD	sample list 1	sample list 1	NOUN NOUN NUM	NN NN CD
+sample task 2	sample list 2	456	11	sample task 2	sample task 2	NOUN NOUN NUM	NN NN CD	sample list 2	sample list 2	NOUN NOUN NUM	NN NN CD
+sample task 3	sample list 3	789	12	sample task 3	sample task 3	NOUN NOUN NUM	NN NN CD	sample list 3	sample list 3	NOUN NOUN NUM	NN NN CD
+buy milk	today	100	10	buy milk	buy milk	VERB NOUN	VB NN	today	today	NOUN	NN
+pick up milk	groceries	100	10	pick up milk	pick up milk	VERB ADP NOUN	VB RP NN	groceries	grocery	NOUN	NNS
+milk	wholefoods	100	10	milk	milk	NOUN	NN	wholefoods	wholefood	NOUN	NNS
+call naoki	todo	10	10	call naoki	call naoki	VERB NOUN	VB NN	todo	todo	PROPN	NNP
+naoki	contact	20	20	naoki	naoki	PROPN	NNP	contact	contact	NOUN	NN
+draft	research	100	10	draft	draft	NOUN	NN	research	research	NOUN	NN
+code	research	100	10	code	code	PROPN	NNP	research	research	NOUN	NN
+submit	research	100	10	submit	submit	VERB	VB	research	research	NOUN	NN
+submit a draft	school	100	10	submit a draft	submit a draft	VERB DET NOUN	VB DT NN	school	school	NOUN	NN
+revise a draft	this week	100	10	revise a draft	revise a draft	VERB DET NOUN	VB DT NN	this week	this week	DET NOUN	DT NN
+upload code	research	100	10	upload code	upload code	VERB NOUN	VB NN	research	research	NOUN	NN
+clean up code	work	100	10	clean up code	clean up code	VERB ADP NOUN	VB RP NN	work	work	VERB	VB
