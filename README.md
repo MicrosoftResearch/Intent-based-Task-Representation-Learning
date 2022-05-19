@@ -1,14 +1,15 @@
-# Project
+# Intent based Task Representation Learning
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repository contains the code and sample data for running the method proposed in the following paper: Naoki Otani, Michael Gamon, Sujay Kumar Jauhar, Mei Yang, Sri Raghu Malireddi, and Oriana Riva. 2022. LITE: Intent-based Task Representation Learning Using Weak Supervision. In Proc. of NAACL-HLT.
 
-As the maintainer of this project, please make a few updates:
+Directories:
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+- `DataPreprocessing/`: code and sample data for data preprocessing
+- `TaskReprLearning/`: code and data for training an encoder
+- `Evaluation/`: code for running downstream experiments
+
+See `README.md` in each directory for more details.
+
 
 ## Contributing
 
@@ -24,10 +25,25 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## Trademarks
+## Citing this Work
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+If you use the code or data in your work, please cite the following paper:
+
+```
+Naoki Otani, Michael Gamon, Sujay Kumar Jauhar, Mei Yang, Sri Raghu Malireddi, and Oriana Riva. 2022. LITE: Intent-based Task Representation Learning Using Weak Supervision. In Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT), Seattle, Washington, July. Association for Computational Linguistics.
+
+@inproceedings{otani-etal-2022-lite,
+title = "{LITE}: {I}ntent-based Task Representation Learning Using Weak Supervision.",
+author = "Otani, Naoki  and
+          Gamon, Michael  and
+          Jauhar, Sujay Kumar  and
+          Yang, Mei  and
+          Malireddi, Sri Raghu  and
+          Riva, Oriana",
+          booktitle = "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+          month = jul,
+          year = "2022",
+          address = "Seattle, Washington",
+          publisher = "Association for Computational Linguistics",
+}
+```
