@@ -29,9 +29,9 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 If you use the code or data in your work, please cite the following paper:
 
-```
-Naoki Otani, Michael Gamon, Sujay Kumar Jauhar, Mei Yang, Sri Raghu Malireddi, and Oriana Riva. 2022. LITE: Intent-based Task Representation Learning Using Weak Supervision. In Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT), Seattle, Washington, July. Association for Computational Linguistics.
+> Naoki Otani, Michael Gamon, Sujay Kumar Jauhar, Mei Yang, Sri Raghu Malireddi, and Oriana Riva. 2022. LITE: Intent-based Task Representation Learning Using Weak Supervision. In Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT), Seattle, Washington, July. Association for Computational Linguistics.
 
+```
 @inproceedings{otani-etal-2022-lite,
 title = "{LITE}: {I}ntent-based Task Representation Learning Using Weak Supervision.",
 author = "Otani, Naoki  and
