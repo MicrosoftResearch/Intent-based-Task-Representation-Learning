@@ -245,13 +245,13 @@ class MultiTaskDataset(Dataset):
                     if 'framenet' in self.aux_label_indexers:
                         # example['framenet_tokens'] = texts
                         example['framenet_ids'] = [
-                            None if labels is None
+                            None if len(labels) == 0
                             else LongTensor(sorted([self.aux_label_indexers['framenet'][label]
                                                     for label in labels.split()]))
                             for labels in texts]
                         # example['framenet_core_tokens'] = core_texts
                         example['framenet_core_ids'] = [
-                            None if labels is None
+                            None if len(labels) == 0
                             else LongTensor(sorted([self.aux_label_indexers['framenet'][label]
                                                     for label in labels.split()]))
                             for labels in core_texts]
@@ -260,8 +260,8 @@ class MultiTaskDataset(Dataset):
                         if lowercase:
                             texts = [text.lower() for text in texts]
                         example['framenet_tokens'] = [
-                            None if text is None else tokenizer.tokenize(
-                                text.replace('_', ' ').split(), is_split_into_words=True)
+                            None if len(text) == 0 else tokenizer.tokenize(
+                                text.replace('_', ' '), is_split_into_words=True)
                             for text in texts]
                         example['framenet_ids'] = [
                             None if tokens is None else LongTensor(tokenizer.convert_tokens_to_ids(tokens))
@@ -270,8 +270,8 @@ class MultiTaskDataset(Dataset):
                         if lowercase:
                             core_texts = [text.lower() for text in core_texts]
                         example['framenet_core_tokens'] = [
-                            None if text is None else tokenizer.tokenize(
-                                text.replace('_', ' ').split(), is_split_into_words=True)
+                            None if len(text) == 0 else tokenizer.tokenize(
+                                text.replace('_', ' '), is_split_into_words=True)
                             for text in core_texts]
                         example['framenet_core_ids'] = [
                             None if tokens is None else LongTensor(tokenizer.convert_tokens_to_ids(tokens))

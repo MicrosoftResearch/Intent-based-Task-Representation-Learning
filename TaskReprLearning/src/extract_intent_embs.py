@@ -32,6 +32,7 @@ TOKENIZER_CLASS = {
     'bert-base-cased': BertTokenizer,
     'bert-base-uncased': BertTokenizer,
     'bert-large-cased': BertTokenizer,
+    'bert-large-uncased': BertTokenizer,
     'gpt2': GPT2Tokenizer,
     'roberta-base': RobertaTokenizer,
 }

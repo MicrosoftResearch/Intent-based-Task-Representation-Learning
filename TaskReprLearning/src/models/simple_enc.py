@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from os import path
 from typing import Any
 from typing import Dict
 from typing import List
@@ -7,6 +8,7 @@ from typing import Optional
 from typing import Tuple
 from typing import Union
 import math
+import sys
 
 from torch import nn
 from transformers import BertModel
@@ -206,6 +208,9 @@ class SimpleGenClfBaseModel(nn.Module):
                             filepath: Optional[str],
                             add_unk: Optional[bool] = True,
                             add_pad: Optional[bool] = True) -> None:
+        if not path.isfile(filepath):
+            sys.stderr.write(f'{filepath} does not exist. The label embeddings are not initialized with an embedding file. (You can ignore this warning if you\'re loading a pre-trained model file.\n')
+            return
         with open(filepath) as f:
             # Input format: word2vec format
             next(f)  # skip a header

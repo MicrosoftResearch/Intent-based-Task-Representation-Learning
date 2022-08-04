@@ -71,13 +71,13 @@ python scripts/calculate_fe_weights_for_event_frames.py -o data/framenet/fe_weig
 python src/train.py config/bert-base-uncased.v1.jsonnet -s save/bert-base-uncased.v1 --cuda 0
 
 ## Training on multiple GPUs
-CUDA_VISIBLE_DEVICES=<DEVICE NUMBER(s)> python src/train.py  config/bert-base-uncased.v1.jsonnet -s save/bert-base-uncased.v1 --parallel
+CUDA_VISIBLE_DEVICES=<DEVICE NUMBER(s)> python src/train.py  config/bert-base-uncased.v1.jsonnet -s save/bert-base-uncased --parallel
 ```
 
 This script produces two output directories.
 
-- `save/bert-base-uncased.v1`: trained model file
-- `logs/bert-base-uncased.v1...`: tensorboard log file
+- `save/bert-base-uncased`: trained model file
+- `logs/bert-base-uncased...`: tensorboard log file
 
 
 ## Extract intent embeddings
@@ -87,9 +87,11 @@ See `cmd/extract_embs.sh` to produce embeddings for given input texts.
 ```shell
 bash cmd/extract_embs.sh <path to model directory> <CUDA device ID (-1 to use CPU)>
 
-bash cmd/extract_embs.sh save/simple_enc/bert-base-uncased.v1 0
+# Example
+## Pre-trained models are available in save/. Use Git LFS to download tar.gz files and decompress them in save/bert-base-uncased.v1 etc.
+## After decompressing the pre-trained BERT-based model (model.best.pth, config.json, and tokenizer/) into save/bert-base-uncased.v1, run:
+bash cmd/extract_embs.sh save/bert-base-uncased.v1 0
 ```
-
 
 # Baselines
 
