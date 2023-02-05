@@ -15,7 +15,6 @@ from transformers import BertModel
 from transformers import GPT2Model
 from transformers import PreTrainedModel
 from transformers import PreTrainedTokenizer
-from transformers.generation_utils import GreedySearchOutput
 import torch
 import numpy as np
 
@@ -478,16 +477,15 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
                 decoder = self.aux_modules[key]
                 pre_decoder = self.aux_modules[f'{key}_pre_decoder']
                 lm_head = self.aux_modules[f'{key}_lm_head']
-                output_embs = self.transformer.get_input_embeddings()(target_ids)
                 h_0 = torch.cat([ffn(intent_embs[mask]).unsqueeze(0) for ffn in pre_decoder],
                                 dim=0)
-                size_out, size_h0 = output_embs.size(), h_0.size()
-                try:
-                    decoder_hidden_states, _ = decoder(output_embs, h_0)
-                except:
-                    raise ValueError
-                logits = lm_head(decoder_hidden_states)
-
+                # The encoder states are passed below but are not used
+                logits = self.calculate_logits(encoder_hidden_states=ret.last_hidden_state,
+                                               encoder_attention_mask=input_mask,
+                                               decoder_input_ids=target_ids,
+                                               h_0=h_0,
+                                               decoder=decoder, lm_head=lm_head,
+                                               cross_attention=False)
                 shifted_ids = target_ids[:, 1:].contiguous().view(-1)
                 vocab_size = logits.size(-1)
                 shifted_logits = logits[:, :-1, :].contiguous().view((-1, vocab_size))
@@ -549,19 +547,31 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
                          decoder_input_ids: torch.Tensor,
                          h_0: torch.Tensor,
                          return_hidden_states: Optional[bool] = False,
+                         decoder: Optional[nn.Module] = None,
+                         post_decoder: Optional[nn.Module] = None,
+                         lm_head: Optional[nn.Module] = None,
+                         cross_attention: Optional[bool] = None
     ) -> torch.Tensor:
+        if decoder is None:
+            decoder = self.decoder
+        if post_decoder is None:
+            post_decoder = self.post_decoder
+        if lm_head is None:
+            lm_head = self.lm_head
+        if cross_attention is None:
+            cross_attention = self.cross_attention
         output_embs = self.transformer.get_input_embeddings()(decoder_input_ids)
-        decoder_hidden_states, hidden_states = self.decoder(output_embs, h_0)
-        if self.cross_attention:
+        decoder_hidden_states, hidden_states = decoder(output_embs, h_0)
+        if cross_attention:
             dot = torch.matmul(encoder_hidden_states, decoder_hidden_states.transpose(1, 2)) # \
                 # / math.sqrt(encoder_hidden_states.size(-1))
             dot[~encoder_attention_mask] = -float('Inf')
             attentions = dot.transpose(1, 2).softmax(dim=2)
             ctx = torch.matmul(attentions, encoder_hidden_states)
-            h = self.post_decoder(torch.cat((ctx, decoder_hidden_states), dim=2))
+            h = post_decoder(torch.cat((ctx, decoder_hidden_states), dim=2))
         else:
             h = decoder_hidden_states
-        logits = self.lm_head(h)
+        logits = lm_head(h)
         if return_hidden_states:
             return logits, hidden_states
         return logits
@@ -574,9 +584,8 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
                              pad_token_id: Optional[int] = None,
                              eos_token_id: Optional[int] = None,
                              decoder_start_token_id: Optional[int] = None,
-                             return_dict_in_generate: Optional[bool] = None,
                              **model_kwargs
-                             ) -> Union[GreedySearchOutput, torch.LongTensor]:
+                             ) -> torch.LongTensor:
         pad_token_id = pad_token_id if pad_token_id is not None else self.transformer.config.pad_token_id
         eos_token_id = eos_token_id if eos_token_id is not None else self.transformer.config.eos_token_id
         decoder_start_token_id = decoder_start_token_id if decoder_start_token_id is not None else self.transformer.config.decoder_start_token_id
@@ -629,20 +638,80 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
                or (isinstance(max_length, int) and cur_len >= max_length):
                 break
 
-        if return_dict_in_generate:
-            # TODO
-            GreedySearchEncoderDecoderOutput(
-                sequences=output_ids,
-                scores=None,
-                encoder_attentions=None,
-                encoder_hidden_states=None,
-                decoder_attentions=None,
-                cross_attentions=None,
-                decoder_hidden_states=None
-            )
-        else:
-            return output_ids
+        return output_ids
 
+    def generate_event_greedy_top1(self,
+                                   key: str,
+                                   input_ids: torch.LongTensor,
+                                   attention_mask: Optional[torch.Tensor] = None,
+                                   input_type_ids: Optional[torch.Tensor] = None,
+                                   max_length: Optional[int] = None,
+                                   pad_token_id: Optional[int] = None,
+                                   eos_token_id: Optional[int] = None,
+                                   decoder_start_token_id: Optional[int] = None,
+                                   **model_kwargs
+                             ) -> torch.LongTensor:
+        assert key in {'comet-xNeed', 'comet-xIntent'}
+        decoder = self.aux_modules[key]
+        pre_decoder = self.aux_modules[f'{key}_pre_decoder']
+        lm_head = self.aux_modules[f'{key}_lm_head']
+
+        pad_token_id = pad_token_id if pad_token_id is not None else self.transformer.config.pad_token_id
+        eos_token_id = eos_token_id if eos_token_id is not None else self.transformer.config.eos_token_id
+        decoder_start_token_id = decoder_start_token_id if decoder_start_token_id is not None else self.transformer.config.decoder_start_token_id
+
+        # keep track of which sequences are already finished
+        output_ids = input_ids.new(input_ids.shape[0], 1).fill_(decoder_start_token_id)
+        unfinished_sequences = input_ids.new(input_ids.shape[0]).fill_(1)
+        cur_len = 1
+
+        if attention_mask is None:
+            attention_mask = input_ids.ne(pad_token_id)
+
+        token_type_ids = None
+        if self.input_type_embeddings:
+            token_type_ids = input_type_ids
+
+        ret = self.transformer(input_ids=input_ids,
+                               token_type_ids=token_type_ids,
+                               attention_mask=attention_mask,
+                               output_hidden_states=True)
+        intent_embs = self.get_intent_embs(
+            input_ids=input_ids, attention_mask=attention_mask,
+            input_type_ids=input_type_ids,
+            encoder_hidden_states=ret.last_hidden_state)
+        h = torch.cat([ffn(intent_embs).unsqueeze(0) for ffn in pre_decoder],
+                      dim=0)
+        while True:
+            # The encoder states are passed below but are not used
+            logits, h = self.calculate_logits(encoder_hidden_states=ret.last_hidden_state,
+                                              encoder_attention_mask=attention_mask,
+                                              decoder_input_ids=output_ids[:, -1].unsqueeze(1),
+                                              h_0=h,
+                                              decoder=decoder, lm_head=lm_head,
+                                              cross_attention=False,
+                                              return_hidden_states=True)
+            # output_mask = output_ids.ne(pad_token_id)
+            # output_embs = self.transformer.embeddings(input_ids=output_ids[:, -1].unsqueeze(1))
+            # out, h = self.decoder(output_embs, h)
+            # logits = self.lm_head(out)
+            next_tokens = logits.argmax(dim=-1).flatten()
+
+            if eos_token_id is not None:
+                assert pad_token_id is not None, "If eos_token_id is defined, make sure that pad_token_id is defined."
+                next_tokens = next_tokens * unfinished_sequences + pad_token_id * (1 - unfinished_sequences)
+            output_ids = torch.cat([output_ids, next_tokens[:, None]], dim=-1)
+            cur_len += 1
+
+            if eos_token_id is not None:
+                unfinished_sequences = unfinished_sequences.mul((next_tokens != eos_token_id).long())
+
+            # stop when each sentence is finished, or if we exceed the maximum length
+            if unfinished_sequences.max() == 0 \
+               or (isinstance(max_length, int) and cur_len >= max_length):
+                break
+
+        return output_ids
 
 class SimpleCGenClfModel(SimpleGenClfBaseModel):
     """Continuous generation for the primary output"""
