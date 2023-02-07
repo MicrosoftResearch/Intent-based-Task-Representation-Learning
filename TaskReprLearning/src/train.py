@@ -846,7 +846,7 @@ def main(args):
     config['overwrite_cache'] = args.overwrite_cache
 
     nprocs = torch.cuda.device_count()
-    if nprocs <= 1:
+    if args.parallel and nprocs <= 1:
         raise ValueError(f'--parallel is given but # of GPUs = {nprocs}')
     log(f'{nprocs} GPUs are available', logger=logger)
     for handler in logger.handlers:  # close the log file
