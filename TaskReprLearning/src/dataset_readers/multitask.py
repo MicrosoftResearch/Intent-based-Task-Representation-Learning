@@ -10,6 +10,7 @@ import os
 import pickle
 import random
 
+from torch import ShortTensor
 from torch import LongTensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
@@ -29,6 +30,10 @@ handler.setFormatter(formatter)
 default_logger.setLevel(logging.DEBUG)
 default_logger.addHandler(handler)
 default_logger.propagate = False
+
+
+"""Note: This script uses ShortTensor (16-bit int) to store token IDs to reduce memory footprint. This generally works for Transformer models, but if the backbone Transformer model has vocab size larger than 2^16, you should use IntTensor or LongTensor.
+"""
 
 
 class MultiTaskDataset(Dataset):
@@ -117,8 +122,8 @@ class MultiTaskDataset(Dataset):
                 example = {'id': f'{filepath}###{i}'}
                 _tokens = {}
                 for field in ['task', 'list']:
-                    example[field] = row[f'{field}.tok']
-                    text = example[field]
+                    text = row[f'{field}.tok']
+                    # example[field] = text
                     if field == 'list' and dummy_list:
                         text = 'inbox'
                     if lowercase:
@@ -132,7 +137,7 @@ class MultiTaskDataset(Dataset):
                                           add_special_tokens=False)
                     ids = tokenized['input_ids']
                     tokens = tokenizer.convert_ids_to_tokens(ids)
-                    example[f'{field}_ids'] = LongTensor(ids)
+                    example[f'{field}_ids'] = ShortTensor(ids)
                     # example[f'{field}_tokens'] = tokens
                     _tokens[field] = tokens
 
@@ -169,15 +174,15 @@ class MultiTaskDataset(Dataset):
                         token_types.append(0)
                 ids = tokenizer.convert_tokens_to_ids(tokens)
                 # example['input_tokens'] = tokens
-                example['input_ids'] = LongTensor(ids)
-                example['input_type_ids'] = LongTensor(np.array(token_types))
+                example['input_ids'] = ShortTensor(ids)
+                example['input_type_ids'] = ShortTensor(np.array(token_types))
 
                 # Output
                 if 'task.full.tok' in row:
                     if isinstance(row['task.full.tok'], str):
                         row['task.full.tok'] = [row['task.full.tok']]
-                    example['task.full'] = row['task.full.tok']
-                    example['output_tokens'] = []
+                    # example['task.full'] = row['task.full.tok']
+                    # example['output_tokens'] = []
                     example['output_ids'] = []
                     for text in row['task.full.tok']:
                         if lowercase:
@@ -191,7 +196,7 @@ class MultiTaskDataset(Dataset):
 
                         ids = [tokenizer.bos_token_id] + tokenized['input_ids'] + [tokenizer.eos_token_id]
                         tokens = tokenizer.convert_ids_to_tokens(ids)
-                        example['output_ids'].append(LongTensor(ids))
+                        example['output_ids'].append(ShortTensor(ids))
                         # example['output_tokens'].append(tokens)
 
                 for col, texts in row.items():
@@ -203,8 +208,8 @@ class MultiTaskDataset(Dataset):
                         texts = [texts]
                     if lowercase:
                         texts = [[text.lower() for text in texts_] for texts_ in texts]
-                    example[col] = texts
-                    example[f'{col}_tokens'] = []
+                    # example[col] = texts
+                    # example[f'{col}_tokens'] = []
                     example[f'{col}_ids'] = []
                     for texts_ in texts:
                         _tokens = [
@@ -217,7 +222,7 @@ class MultiTaskDataset(Dataset):
                                 for tokens in _tokens[:]]
                         # example[f'{col}_tokens'][-1] = _tokens
                         example[f'{col}_ids'].append([
-                            LongTensor(tokenizer.convert_tokens_to_ids(tokens))
+                            ShortTensor(tokenizer.convert_tokens_to_ids(tokens))
                             for tokens in _tokens
                         ])
                 if isinstance(row.get('framenet', None), list):
@@ -241,18 +246,18 @@ class MultiTaskDataset(Dataset):
                             texts_.append(text.split('@@@')[0])
                         assert len(texts_) == len(set(texts_))
                         core_texts.append(' '.join(texts_))
-                    example['framenet'] = texts
+                    # example['framenet'] = texts
                     if 'framenet' in self.aux_label_indexers:
                         # example['framenet_tokens'] = texts
                         example['framenet_ids'] = [
                             None if len(labels) == 0
-                            else LongTensor(sorted([self.aux_label_indexers['framenet'][label]
+                            else ShortTensor(sorted([self.aux_label_indexers['framenet'][label]
                                                     for label in labels.split()]))
                             for labels in texts]
                         # example['framenet_core_tokens'] = core_texts
                         example['framenet_core_ids'] = [
                             None if len(labels) == 0
-                            else LongTensor(sorted([self.aux_label_indexers['framenet'][label]
+                            else ShortTensor(sorted([self.aux_label_indexers['framenet'][label]
                                                     for label in labels.split()]))
                             for labels in core_texts]
                     else:
@@ -264,7 +269,7 @@ class MultiTaskDataset(Dataset):
                                 text.replace('_', ' '), is_split_into_words=True)
                             for text in texts]
                         example['framenet_ids'] = [
-                            None if tokens is None else LongTensor(tokenizer.convert_tokens_to_ids(tokens))
+                            None if tokens is None else ShortTensor(tokenizer.convert_tokens_to_ids(tokens))
                             for tokens in example['framenet_tokens']]
 
                         if lowercase:
@@ -274,7 +279,7 @@ class MultiTaskDataset(Dataset):
                                 text.replace('_', ' '), is_split_into_words=True)
                             for text in core_texts]
                         example['framenet_core_ids'] = [
-                            None if tokens is None else LongTensor(tokenizer.convert_tokens_to_ids(tokens))
+                            None if tokens is None else ShortTensor(tokenizer.convert_tokens_to_ids(tokens))
                             for tokens in example['framenet_core_tokens']]
 
                 self.examples.append(example)
@@ -337,5 +342,9 @@ class MultiTaskDataset(Dataset):
                     # del example[f'{key}_tokens']
                 except KeyError:
                     pass
+
+        for key, val in example.items():
+            if isinstance(val, ShortTensor):
+                example[key] = val.type(torch.LongTensor)  # to LongTensor
 
         return example
