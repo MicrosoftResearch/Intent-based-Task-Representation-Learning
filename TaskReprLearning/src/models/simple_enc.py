@@ -648,6 +648,7 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
                                    max_length: Optional[int] = None,
                                    pad_token_id: Optional[int] = None,
                                    eos_token_id: Optional[int] = None,
+                                   decoder_prompt_ids: Optional[int] = None,
                                    decoder_start_token_id: Optional[int] = None,
                                    **model_kwargs
                              ) -> torch.LongTensor:
@@ -659,11 +660,6 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
         pad_token_id = pad_token_id if pad_token_id is not None else self.transformer.config.pad_token_id
         eos_token_id = eos_token_id if eos_token_id is not None else self.transformer.config.eos_token_id
         decoder_start_token_id = decoder_start_token_id if decoder_start_token_id is not None else self.transformer.config.decoder_start_token_id
-
-        # keep track of which sequences are already finished
-        output_ids = input_ids.new(input_ids.shape[0], 1).fill_(decoder_start_token_id)
-        unfinished_sequences = input_ids.new(input_ids.shape[0]).fill_(1)
-        cur_len = 1
 
         if attention_mask is None:
             attention_mask = input_ids.ne(pad_token_id)
@@ -682,6 +678,25 @@ class SimpleGenClfModel(SimpleGenClfBaseModel):
             encoder_hidden_states=ret.last_hidden_state)
         h = torch.cat([ffn(intent_embs).unsqueeze(0) for ffn in pre_decoder],
                       dim=0)
+
+        if decoder_prompt_ids is not None:
+            batch_size = intent_embs.size(0)
+            decoder_prompt_ids = decoder_prompt_ids.unsqueeze(0).repeat(batch_size, 1)
+            _, h = self.calculate_logits(encoder_hidden_states=ret.last_hidden_state,
+                                         encoder_attention_mask=attention_mask,
+                                         decoder_input_ids=decoder_prompt_ids[:, :-1],
+                                         h_0=h,
+                                         decoder=decoder, lm_head=lm_head,
+                                         cross_attention=False,
+                                         return_hidden_states=True)
+            output_ids = decoder_prompt_ids
+            cur_len = output_ids.size(1)
+        else:
+            output_ids = input_ids.new(input_ids.shape[0], 1).fill_(decoder_start_token_id)
+            cur_len = 1
+
+        # keep track of which sequences are already finished
+        unfinished_sequences = input_ids.new(input_ids.shape[0]).fill_(1)
         while True:
             # The encoder states are passed below but are not used
             logits, h = self.calculate_logits(encoder_hidden_states=ret.last_hidden_state,
